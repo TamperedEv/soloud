@@ -26,375 +26,375 @@ else
 	WITH_OSS = 1
 end
 
--- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< --
-
-local sdl_root       = "/libraries/sdl"
-local sdl2_root      = "/libraries/sdl2"
-local dxsdk_root     = os.getenv("DXSDK_DIR") and os.getenv("DXSDK_DIR") or "C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)"
-local portaudio_root = "/libraries/portaudio"
-local openal_root    = "/libraries/openal"
-
--- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< --
-
-local sdl_include       = sdl_root .. "/include"
-local sdl2_include      = sdl2_root .. "/include"
-local sdl2_lib_x86      = sdl2_root .. "/lib/x86"
-local sdl2_lib_x64      = sdl2_root .. "/lib/x64"
-local dxsdk_include     = dxsdk_root .. "/include"
-local portaudio_include = portaudio_root .. "/include"
-local openal_include    = openal_root .. "/include"
+---- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< --
+--
+--local sdl_root       = "/libraries/sdl"
+--local sdl2_root      = "/libraries/sdl2"
+--local dxsdk_root     = os.getenv("DXSDK_DIR") and os.getenv("DXSDK_DIR") or "C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)"
+--local portaudio_root = "/libraries/portaudio"
+--local openal_root    = "/libraries/openal"
+--
+---- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< --
+--
+--local sdl_include       = sdl_root .. "/include"
+--local sdl2_include      = sdl2_root .. "/include"
+--local sdl2_lib_x86      = sdl2_root .. "/lib/x86"
+--local sdl2_lib_x64      = sdl2_root .. "/lib/x64"
+--local dxsdk_include     = dxsdk_root .. "/include"
+--local portaudio_include = portaudio_root .. "/include"
+--local openal_include    = openal_root .. "/include"
 
 local buildroot = ""
 if _ACTION then buildroot = _ACTION end
 
--- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< --
-
-newoption {
-    trigger       = "with-common-backends",
-    description   = "Includes common backends in build"
-}
-
-newoption {
-	trigger		  = "with-openal",
-	description = "Include OpenAL backend in build"
-}
-
-newoption {
-	trigger		  = "with-sdl",
-	description = "Include SDL backend in build"
-}
-
-newoption {
-	trigger		  = "with-sdl2",
-	description = "Include SDL2 backend in build"
-}
-
-newoption {
-	trigger		  = "with-portaudio",
-	description = "Include PortAudio backend in build"
-}
-
-newoption {
-	trigger		  = "with-wasapi",
-	description = "Include WASAPI backend in build"
-}
-
-newoption {
-	trigger		  = "with-xaudio2",
-	description = "Include XAudio2 backend in build"
-}
-
-newoption {
-	trigger		  = "with-native-only",
-	description = "Only native backends (winmm/oss) in build (default)"
-}
-
-newoption {
-	trigger		  = "with-sdl-only",
-	description = "Only include sdl in build"
-}
-
-newoption {
-	trigger		  = "with-sdlstatic-only",
-	description = "Only include sdl that doesn't use dyndll in build"
-}
-
-newoption {
-	trigger		  = "with-sdl2-only",
-	description = "Only include sdl2 in build"
-}
-
-newoption {
-	trigger		  = "with-sdl2static-only",
-	description = "Only include sdl2 that doesn't use dyndll in build"
-}
-
-newoption {
-	trigger		  = "with-coreaudio",
-	description = "Include OS X CoreAudio backend in build"
-}
-
-newoption {
-	trigger		  = "with-vita-homebrew-only",
-	description = "Only include PS Vita homebrew backend in build"
-}
-
-newoption {
-	trigger		  = "with-tools",
-	description = "Include (optional) tools in build"
-}
-
-newoption {
-	trigger		  = "soloud-devel",
-	description = "Shorthand for options used while developing SoLoud"
-}
-
-newoption {
-	trigger		  = "with-nosound",
-	description = "Include nosound backend in build"
-}
-
-newoption {
-	trigger		  = "with-jack",
-	description = "Include JACK backend in build"
-}
-
-newoption {
-	trigger		  = "with-jack-only",
-	description = "Only include JACK backend in build"
-}
-
-newoption {
-    trigger       = "with-miniaudio",
-    description = "Include MiniAudio in build" 
-}
-
-newoption {
-    trigger       = "with-miniaudio-only",
-    description = "Only include MiniAudio in build"
-}
-
-if _OPTIONS["soloud-devel"] then
-    WITH_SDL = 0
-    WITH_SDL2 = 1
-    WITH_SDL_STATIC = 0
-    WITH_SDL2_STATIC = 0
-    WITH_PORTAUDIO = 1
-    WITH_OPENAL = 1
-    WITH_XAUDIO2 = 0
-    WITH_WINMM = 0
-    WITH_WASAPI = 0
-    WITH_MINIAUDIO = 1
-    WITH_OSS = 1
-    WITH_NOSOUND = 1
-    if (os.is("Windows")) then
-    	WITH_XAUDIO2 = 0
-    	WITH_WINMM = 1
-    	WITH_WASAPI = 1
-    	WITH_OSS = 0
-    end
-    WITH_TOOLS = 1
-end
-
-if _OPTIONS["with-common-backends"] then
-    WITH_SDL = 1
-    WITH_SDL_STATIC = 0
-    WITH_SDL2_STATIC = 0
-    WITH_PORTAUDIO = 1
-    WITH_OPENAL = 1
-    WITH_XAUDIO2 = 0
-    WITH_WINMM = 0
-    WITH_WASAPI = 0
-    WITH_OSS = 1
-    WITH_NOSOUND = 1
-    WITH_MINIAUDIO = 0
-
-    if (os.is("Windows")) then
-    	WITH_XAUDIO2 = 0
-    	WITH_WINMM = 1
-    	WITH_WASAPI = 1
-    	WITH_OSS = 0
-    end
-end
-
-if _OPTIONS["with-xaudio2"] then
-	WITH_XAUDIO2 = 1
-end
-
-if _OPTIONS["with-openal"] then
-	WITH_OPENAL = 1
-end
-
-if _OPTIONS["with-portaudio"] then
-	WITH_PORTAUDIO = 1
-end
-
-if _OPTIONS["with-coreaudio"] then
-	WITH_COREAUDIO = 1
-end
-
-if _OPTIONS["with-sdl"] then
-	WITH_SDL = 1
-end
-
-if _OPTIONS["with-sdl2"] then
-	WITH_SDL2 = 1
-end
-
-if _OPTIONS["with-wasapi"] then
-	WITH_WASAPI = 1
-end
-
-if _OPTIONS["with-nosound"] then
-    WITH_NOSOUND = 1
-end
-
-if _OPTIONS["with-sdl-only"] then
-	WITH_SDL = 1
-	WITH_SDL2 = 0
-	WITH_SDL_STATIC = 0
-	WITH_SDL2_STATIC = 0
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_NOSOUND = 0
-	WITH_MINIAUDIO = 0
-end
-
-if _OPTIONS["with-sdl2-only"] then
-	WITH_SDL = 0
-	WITH_SDL2 = 1
-	WITH_SDL_STATIC = 0
-	WITH_SDL2_STATIC = 0
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_NOSOUND = 0
-	WITH_MINIAUDIO = 0
-end
-
-if _OPTIONS["with-sdlstatic-only"] then
-	WITH_SDL = 0
-	WITH_SDL2 = 0
-	WITH_SDL_STATIC = 1
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_NOSOUND = 0
-	WITH_MINIAUDIO = 0
-end
-
-if _OPTIONS["with-sdl2static-only"] then
-	WITH_SDL = 0
-	WITH_SDL2 = 0
-	WITH_SDL_STATIC = 0
-	WITH_SDL2_STATIC = 1
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_NOSOUND = 0
-	WITH_MINIAUDIO = 0
-end
-
-if _OPTIONS["with-sdl2static-only"] then
-	WITH_SDL = 0
-	WITH_SDL2 = 0
-	WITH_SDL_STATIC = 0
-	WITH_SDL2_STATIC = 1
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_NOSOUND = 0
-	WITH_MINIAUDIO = 0
-end
-
-if _OPTIONS["with-vita-homebrew-only"] then
-	WITH_SDL = 0
-	WITH_SDL2 = 0
-	WITH_SDL_STATIC = 0
-	WITH_SDL2_STATIC = 0
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_ALSA = 0
-	WITH_VITA_HOMEBREW = 1
-	WITH_NOSOUND = 0
-	WITH_MINIAUDIO = 0
-
-	premake.gcc.cc = "arm-vita-eabi-gcc"
-	premake.gcc.cxx = "arm-vita-eabi-g++"
-	premake.gcc.ar = "arm-vita-eabi-ar"
-end
-
-if _OPTIONS["with-jack"] then
-	WITH_JACK = 1
-end
-
-if _OPTIONS["with-jack-only"] then
-	WITH_SDL = 0
-	WITH_SDL2 = 0
-	WITH_SDL_STATIC = 0
-	WITH_SDL2_STATIC = 0
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_ALSA = 0
-	WITH_VITA_HOMEBREW = 0
-	WITH_COREAUDIO = 0
-	WITH_JACK = 1
-	WITH_NOSOUND = 0
-	WITH_MINIAUDIO = 0
-end
-
-if _OPTIONS["with-miniaudio"] then
-    WITH_MINIAUDIO = 1
-end
-
-if _OPTIONS["with-miniaudio-only"] then
-	WITH_SDL = 0
-	WITH_SDL2 = 0
-	WITH_SDL_STATIC = 0
-	WITH_SDL2_STATIC = 0
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_ALSA = 0
-	WITH_VITA_HOMEBREW = 0
-	WITH_COREAUDIO = 0
-	WITH_JACK = 0
-	WITH_NOSOUND = 0
-	WITH_MINIAUDIO = 1
-end
-
-if _OPTIONS["with-native-only"] then
-	WITH_SDL = 0
-	WITH_SDL2 = 0
-	WITH_SDL_STATIC = 0
-	WITH_SDL2_STATIC = 0
-	WITH_PORTAUDIO = 0
-	WITH_OPENAL = 0
-	WITH_XAUDIO2 = 0
-	WITH_WINMM = 0
-	WITH_WASAPI = 0
-	WITH_OSS = 0
-	WITH_MINIAUDIO = 0
-	WITH_NOSOUND = 0
-	if (os.is("Windows")) then
-		WITH_WINMM = 1
-	elseif (os.is("macosx")) then
-		WITH_COREAUDIO = 1
-	else
-	  WITH_OSS = 1
-	end
-end
-
-if _OPTIONS["with-tools"] then
-	WITH_TOOLS = 1
-end
+---- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< -- 8< --
+--
+--newoption {
+--    trigger       = "with-common-backends",
+--    description   = "Includes common backends in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-openal",
+--	description = "Include OpenAL backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-sdl",
+--	description = "Include SDL backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-sdl2",
+--	description = "Include SDL2 backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-portaudio",
+--	description = "Include PortAudio backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-wasapi",
+--	description = "Include WASAPI backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-xaudio2",
+--	description = "Include XAudio2 backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-native-only",
+--	description = "Only native backends (winmm/oss) in build (default)"
+--}
+--
+--newoption {
+--	trigger		  = "with-sdl-only",
+--	description = "Only include sdl in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-sdlstatic-only",
+--	description = "Only include sdl that doesn't use dyndll in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-sdl2-only",
+--	description = "Only include sdl2 in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-sdl2static-only",
+--	description = "Only include sdl2 that doesn't use dyndll in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-coreaudio",
+--	description = "Include OS X CoreAudio backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-vita-homebrew-only",
+--	description = "Only include PS Vita homebrew backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-tools",
+--	description = "Include (optional) tools in build"
+--}
+--
+--newoption {
+--	trigger		  = "soloud-devel",
+--	description = "Shorthand for options used while developing SoLoud"
+--}
+--
+--newoption {
+--	trigger		  = "with-nosound",
+--	description = "Include nosound backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-jack",
+--	description = "Include JACK backend in build"
+--}
+--
+--newoption {
+--	trigger		  = "with-jack-only",
+--	description = "Only include JACK backend in build"
+--}
+--
+--newoption {
+--    trigger       = "with-miniaudio",
+--    description = "Include MiniAudio in build" 
+--}
+--
+--newoption {
+--    trigger       = "with-miniaudio-only",
+--    description = "Only include MiniAudio in build"
+--}
+--
+--if _OPTIONS["soloud-devel"] then
+--    WITH_SDL = 0
+--    WITH_SDL2 = 1
+--    WITH_SDL_STATIC = 0
+--    WITH_SDL2_STATIC = 0
+--    WITH_PORTAUDIO = 1
+--    WITH_OPENAL = 1
+--    WITH_XAUDIO2 = 0
+--    WITH_WINMM = 0
+--    WITH_WASAPI = 0
+--    WITH_MINIAUDIO = 1
+--    WITH_OSS = 1
+--    WITH_NOSOUND = 1
+--    if (os.is("Windows")) then
+--    	WITH_XAUDIO2 = 0
+--    	WITH_WINMM = 1
+--    	WITH_WASAPI = 1
+--    	WITH_OSS = 0
+--    end
+--    WITH_TOOLS = 1
+--end
+--
+--if _OPTIONS["with-common-backends"] then
+--    WITH_SDL = 1
+--    WITH_SDL_STATIC = 0
+--    WITH_SDL2_STATIC = 0
+--    WITH_PORTAUDIO = 1
+--    WITH_OPENAL = 1
+--    WITH_XAUDIO2 = 0
+--    WITH_WINMM = 0
+--    WITH_WASAPI = 0
+--    WITH_OSS = 1
+--    WITH_NOSOUND = 1
+--    WITH_MINIAUDIO = 0
+--
+--    if (os.is("Windows")) then
+--    	WITH_XAUDIO2 = 0
+--    	WITH_WINMM = 1
+--    	WITH_WASAPI = 1
+--    	WITH_OSS = 0
+--    end
+--end
+--
+--if _OPTIONS["with-xaudio2"] then
+--	WITH_XAUDIO2 = 1
+--end
+--
+--if _OPTIONS["with-openal"] then
+--	WITH_OPENAL = 1
+--end
+--
+--if _OPTIONS["with-portaudio"] then
+--	WITH_PORTAUDIO = 1
+--end
+--
+--if _OPTIONS["with-coreaudio"] then
+--	WITH_COREAUDIO = 1
+--end
+--
+--if _OPTIONS["with-sdl"] then
+--	WITH_SDL = 1
+--end
+--
+--if _OPTIONS["with-sdl2"] then
+--	WITH_SDL2 = 1
+--end
+--
+--if _OPTIONS["with-wasapi"] then
+--	WITH_WASAPI = 1
+--end
+--
+--if _OPTIONS["with-nosound"] then
+--    WITH_NOSOUND = 1
+--end
+--
+--if _OPTIONS["with-sdl-only"] then
+--	WITH_SDL = 1
+--	WITH_SDL2 = 0
+--	WITH_SDL_STATIC = 0
+--	WITH_SDL2_STATIC = 0
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_NOSOUND = 0
+--	WITH_MINIAUDIO = 0
+--end
+--
+--if _OPTIONS["with-sdl2-only"] then
+--	WITH_SDL = 0
+--	WITH_SDL2 = 1
+--	WITH_SDL_STATIC = 0
+--	WITH_SDL2_STATIC = 0
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_NOSOUND = 0
+--	WITH_MINIAUDIO = 0
+--end
+--
+--if _OPTIONS["with-sdlstatic-only"] then
+--	WITH_SDL = 0
+--	WITH_SDL2 = 0
+--	WITH_SDL_STATIC = 1
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_NOSOUND = 0
+--	WITH_MINIAUDIO = 0
+--end
+--
+--if _OPTIONS["with-sdl2static-only"] then
+--	WITH_SDL = 0
+--	WITH_SDL2 = 0
+--	WITH_SDL_STATIC = 0
+--	WITH_SDL2_STATIC = 1
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_NOSOUND = 0
+--	WITH_MINIAUDIO = 0
+--end
+--
+--if _OPTIONS["with-sdl2static-only"] then
+--	WITH_SDL = 0
+--	WITH_SDL2 = 0
+--	WITH_SDL_STATIC = 0
+--	WITH_SDL2_STATIC = 1
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_NOSOUND = 0
+--	WITH_MINIAUDIO = 0
+--end
+--
+--if _OPTIONS["with-vita-homebrew-only"] then
+--	WITH_SDL = 0
+--	WITH_SDL2 = 0
+--	WITH_SDL_STATIC = 0
+--	WITH_SDL2_STATIC = 0
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_ALSA = 0
+--	WITH_VITA_HOMEBREW = 1
+--	WITH_NOSOUND = 0
+--	WITH_MINIAUDIO = 0
+--
+--	premake.gcc.cc = "arm-vita-eabi-gcc"
+--	premake.gcc.cxx = "arm-vita-eabi-g++"
+--	premake.gcc.ar = "arm-vita-eabi-ar"
+--end
+--
+--if _OPTIONS["with-jack"] then
+--	WITH_JACK = 1
+--end
+--
+--if _OPTIONS["with-jack-only"] then
+--	WITH_SDL = 0
+--	WITH_SDL2 = 0
+--	WITH_SDL_STATIC = 0
+--	WITH_SDL2_STATIC = 0
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_ALSA = 0
+--	WITH_VITA_HOMEBREW = 0
+--	WITH_COREAUDIO = 0
+--	WITH_JACK = 1
+--	WITH_NOSOUND = 0
+--	WITH_MINIAUDIO = 0
+--end
+--
+--if _OPTIONS["with-miniaudio"] then
+--    WITH_MINIAUDIO = 1
+--end
+--
+--if _OPTIONS["with-miniaudio-only"] then
+--	WITH_SDL = 0
+--	WITH_SDL2 = 0
+--	WITH_SDL_STATIC = 0
+--	WITH_SDL2_STATIC = 0
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_ALSA = 0
+--	WITH_VITA_HOMEBREW = 0
+--	WITH_COREAUDIO = 0
+--	WITH_JACK = 0
+--	WITH_NOSOUND = 0
+--	WITH_MINIAUDIO = 1
+--end
+--
+--if _OPTIONS["with-native-only"] then
+--	WITH_SDL = 0
+--	WITH_SDL2 = 0
+--	WITH_SDL_STATIC = 0
+--	WITH_SDL2_STATIC = 0
+--	WITH_PORTAUDIO = 0
+--	WITH_OPENAL = 0
+--	WITH_XAUDIO2 = 0
+--	WITH_WINMM = 0
+--	WITH_WASAPI = 0
+--	WITH_OSS = 0
+--	WITH_MINIAUDIO = 0
+--	WITH_NOSOUND = 0
+--	if (os.is("Windows")) then
+--		WITH_WINMM = 1
+--	elseif (os.is("macosx")) then
+--		WITH_COREAUDIO = 1
+--	else
+--	  WITH_OSS = 1
+--	end
+--end
+--
+--if _OPTIONS["with-tools"] then
+--	WITH_TOOLS = 1
+--end
 
 print ("")
 print ("Active options:")
